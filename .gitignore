@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# environment variables
+.env
+
+# logs
+logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# build / temp
+dist/
+build/
+.tmp/
+.cache/
+
+# uploads (IMPORTANT if user uploads images)
+uploads/
+
+# optional: keep uploads folder but ignore files
+# uploads/*
+# !uploads/.gitkeep
