@@ -26,7 +26,7 @@ app.use(helmet());
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://hotel-booking-frontend-one-phi.vercel.app/" // ← change this
+    "https://hotel-booking-frontend-one-phi.vercel.app" // ← change this
   ],
   credentials: true
 }));
