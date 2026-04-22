@@ -60,7 +60,7 @@ router.post("/", authMiddleware, upload.single("image"), async (req, res) => {
       price: req.body.price,
       description: req.body.description,
       amenities: JSON.parse(req.body.amenities || "[]"),
-      image: `/uploads/${req.file.filename}`,
+      image: req.file.path,
       ownerId: req.user.id, // 🔥 IMPORTANT
     });
 

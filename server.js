@@ -2,18 +2,13 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import helmet from "helmet";
+import path from "path";
+
 import hotelRoutes from "./routes/hotelRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import adminRequestRoutes from "./routes/adminRequestRoutes.js";
-import helmet from "helmet";
-
-
-import path from "path";
-
-
-
-
 
 dotenv.config();
 
@@ -21,24 +16,30 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const __dirname = path.resolve();
 
+// ✅ TRUST PROXY (important for deployment)
+app.set("trust proxy", 1);
 
+// ✅ SECURITY FIRST
+app.use(helmet());
 
-// middleware
+// ✅ CORS
 app.use(cors({
   origin: [
     "http://localhost:5173",
-    "https://your-frontend.vercel.app"
+    "https://hotel-booking-frontend-one-phi.vercel.app/" // ← change this
   ],
   credentials: true
 }));
+
+// ✅ BODY PARSER
 app.use(express.json());
 
-// test route
+// ✅ TEST
 app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-// connect DB
+// ✅ DB
 if (!process.env.MONGO_URI) {
   console.error("MONGO_URI is missing");
   process.exit(1);
@@ -51,17 +52,20 @@ mongoose.connect(process.env.MONGO_URI)
     process.exit(1);
   });
 
+// ✅ ROUTES
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/bookings", bookingRoutes);
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/api/admin-requests", adminRequestRoutes);
-app.use(helmet());
+
+// ✅ STATIC FILES
+
+// ✅ DEBUG
 app.get("/debug", (req, res) => {
   res.send("NEW SERVER RUNNING");
 });
 
-// start server
+// ✅ START
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
